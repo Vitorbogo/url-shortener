@@ -99,11 +99,4 @@ Below is a conceptual diagram of a scalable URL shortener architecture using mod
    - If not found, queries PostgreSQL and updates Redis.
    - Redirects the user to the original URL.
 
-### Benefits
-
-- **Scalability:** Multiple web servers and a load balancer handle high traffic.
-- **Performance:** Redis provides low-latency lookups for redirection.
-- **Reliability:** PostgreSQL ensures data persistence and integrity.
-- **Fault Tolerance:** If a web server fails, others continue to serve traffic.
-
 ---
