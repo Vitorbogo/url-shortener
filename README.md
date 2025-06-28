@@ -1,6 +1,8 @@
 # URL Shortener
 
 A simple, URL shortener service for study purposes, using PostgreSQL for persistent storage.
+![image](https://github.com/user-attachments/assets/88a6356a-9309-48b9-8614-ee1ec8df4e77)
+
 
 ## Features
 
