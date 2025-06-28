@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Arial, sans-serif;
+        background: linear-gradient(120deg, #e0e7ff 0%, #f7f7f7 100%);
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .container {
+        width: 100%;
+        max-width: 420px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 6px 32px #0002;
+        padding: 40px 32px 32px 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      h1 {
+        text-align: center;
+        color: #2d3a4a;
+        margin-bottom: 24px;
+        font-size: 2.1rem;
+        letter-spacing: 1px;
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+        color: #4b5563;
+        font-weight: 500;
+        font-size: 1.05rem;
+        width: 100%;
+        text-align: left;
+      }
+      input[type='url'] {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1.5px solid #c7d2fe;
+        border-radius: 6px;
+        margin-bottom: 18px;
+        font-size: 1.08rem;
+        transition: border 0.2s;
+        box-sizing: border-box;
+      }
+      input[type='url']:focus {
+        border: 1.5px solid #6366f1;
+        outline: none;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(90deg, #6366f1 0%, #2563eb 100%);
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 2px 8px #6366f133;
+        transition: background 0.2s;
+      }
+      button:hover {
+        background: linear-gradient(90deg, #2563eb 0%, #6366f1 100%);
+      }
+      .result {
+        margin-top: 24px;
+        text-align: center;
+        font-size: 1.08rem;
+        color: #2563eb;
+        word-break: break-all;
+      }
+      .error {
+        color: #c00;
+        margin-top: 12px;
+        text-align: center;
+        font-size: 1.05rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>URL Shortener</h1>
+      <form id="shorten-form">
+        <label for="url">Enter a long URL:</label>
+        <input
+          type="url"
+          id="url"
+          name="url"
+          required
+          placeholder="https://example.com"
+        />
+        <button type="submit">Shorten</button>
+      </form>
+      <div class="result" id="result"></div>
+      <div class="error" id="error"></div>
+    </div>
+    <script>
+      const form = document.getElementById('shorten-form')
+      const resultDiv = document.getElementById('result')
+      const errorDiv = document.getElementById('error')
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        resultDiv.textContent = ''
+        errorDiv.textContent = ''
+        const url = document.getElementById('url').value
+
+        try {
+          const res = await fetch('/api/shorten', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url }),
+          })
+          const data = await res.json()
+          if (res.ok) {
+            resultDiv.innerHTML = `<strong>Short URL:</strong> <a href="${data.short_url}" target="_blank">${data.short_url}</a>`
+          } else {
+            errorDiv.textContent = data.error || 'An error occurred.'
+          }
+        } catch (err) {
+          errorDiv.textContent = 'Failed to connect to server.'
+        }
+      })
+    </script>
+  </body>
+</html>
