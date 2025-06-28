@@ -17,6 +17,7 @@ A simple, URL shortener service for study purposes, using PostgreSQL for persist
    - Otherwise, inserts the URL, gets the auto-incremented ID, encodes it in Base62, updates the row, and returns the short URL.
 2. **Redirection:**
    - GET `/:shortKey` redirects to the original URL using HTTP 302.
+   - HTTP 302 indicates that is a temporary redirect allowing the user pass through your service, a redirect HTTP 301 (permanent) would be stored in cache by the browser and then it would not fetch your service anymore.
 
 ## Example Usage
 
@@ -57,11 +58,11 @@ Or open in your browser.
 Below is a conceptual diagram of a scalable URL shortener architecture using modern best practices:
 
 ```
-+-------------------+         +-------------------+         +-------------------+
-|                   |         |                   |         |                   |
-|    User/Browser   +-------->+   Load Balancer   +-------->+   Web Servers     |
-|                   |  HTTPS  | (e.g., NGINX, ELB)|  HTTP   | (Node.js/Express) |
-+-------------------+         +-------------------+         +-------------------+
++----------------+         +-------------------+         +-------------------+
+|                |         |                   |         |                   |
+|  User/Browser  +-------->+   Load Balancer   +-------->+   Web Servers     |
+|                |  HTTPS  | (e.g., NGINX, ELB)|  HTTP   | (Node.js/Express) |
++----------------+         +-------------------+         +-------------------+
                                                                 |         |
                                                                 |         |
                                                                 v         v
