@@ -47,7 +47,7 @@ Or open in your browser.
    ```bash
    npm install
    ```
-2. Configure your PostgreSQL database and `.env` file (see `DB_SETUP.md`).
+2. Configure your PostgreSQL database and `.env` file (see `postgres_config.md`).
 3. Start the server:
    ```bash
    node index.js
